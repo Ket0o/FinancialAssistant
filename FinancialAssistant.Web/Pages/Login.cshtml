@@ -1,0 +1,63 @@
+﻿@page
+@model FinancialAssistant.Web.Pages.LoginModel;
+@{
+    Layout = null;
+    ViewData["Title"] = "Вход в систему";
+}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход в систему</title>
+
+    <!-- Подключение Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/login.css" />
+    <style>
+        
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <h2 class="text-center">Вход в систему</h2>
+
+        <form method="post">
+            <div class="form-group">
+                <label for="Email">Электронная почта:</label>
+                <input type="email" id="Email" name="Email" class="form-control" required placeholder="Введите вашу электронную почту" />
+            </div>
+            <div class="form-group">
+                <label for="Password">Пароль:</label>
+                <input type="password" id="Password" name="Password" class="form-control" required placeholder="Введите ваш пароль" />
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Войти</button>
+            </div>
+            <div class="text-center mt-3">
+                <p>
+                    Нет аккаунта? <a href="/Register">Зарегистрируйтесь</a>
+                </p>
+                <p>
+                    <a href="/ForgotPassword">Забыли пароль?</a>
+                </p>
+            </div>
+        </form>
+
+        <!-- Сообщение об ошибке -->
+        <div class="error-message">
+            <!-- Здесь будет выводиться сообщение об ошибке, если оно есть -->
+            <!-- Например: @Model.ErrorMessage -->
+        </div>
+    </div>
+
+    <!-- Подключение jQuery и Bootstrap JS -->
+    <!--
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    -->
+</body>
+</html>
