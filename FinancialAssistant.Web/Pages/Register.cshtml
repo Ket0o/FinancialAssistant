@@ -1,64 +1,34 @@
 ﻿@page
 @model FinancialAssistant.Web.Pages.RegisterModel
 @{
-    Layout = null;
+    Layout = "Shared/_Authentication";
     ViewData["Title"] = "Регистрация";
+    ViewData["CssHref"] = "/css/register.css";
 }
 
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewData["Title"]</title>
-
-    <!-- Подключение Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/register.css" />
-    <style>
-
-    </style>
-</head>
-<body>
-
-    <div class="register-container">
-        <h2 class="text-center">@ViewData["Title"]</h2>
-
-        <form method="post">
-            <div class="form-group">
-                <label for="Email">Электронная почта:</label>
-                <input type="email" id="Email" name="Email" class="form-control" required placeholder="Введите вашу электронную почту" />
-            </div>
-            <div class="form-group">
-                <label for="Password">Пароль:</label>
-                <input type="password" id="Password" name="Password" class="form-control" required placeholder="Введите ваш пароль" />
-            </div>
-            <div class="form-group">
-                <label for="ConfirmPassword">Подтверждение пароля:</label>
-                <input type="password" id="ConfirmPassword" name="ConfirmPassword" class="form-control" required placeholder="Подтвердите ваш пароль" />
-            </div>
-            <div class="text-center">
-                <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
-            </div>
-            <div class="text-center mt-3">
-                <p>
-                    Уже есть аккаунт? <a href="/Login">Войдите</a>
-                </p>
-            </div>
-        </form>
-
-        <!-- Сообщение об ошибке -->
-        <div class="error-message">
-            <!-- Здесь будет выводиться сообщение об ошибке, если оно есть -->
-            <!-- Например: @Model.ErrorMessage -->
+<div class="register-container">
+    <h2 class="text-center">@ViewData["Title"]</h2>
+    <form method="post">
+        <div class="form-group">
+            <label for="Email">Электронная почта:</label>
+            <input type="email" id="Email" name="Email" class="form-control" required placeholder="Введите вашу электронную почту"/>
         </div>
-    </div>
-
-    <!-- Подключение jQuery и Bootstrap JS -->
-    <!--
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    -->
-</body>
-</html>
+        <div class="form-group">
+            <label for="Password">Пароль:</label>
+            <input type="password" id="Password" name="Password" class="form-control" required placeholder="Введите ваш пароль"/>
+        </div>
+        <div class="form-group">
+            <label for="ConfirmPassword">Подтверждение пароля:</label>
+            <input type="password" id="ConfirmPassword" name="ConfirmPassword" class="form-control" required placeholder="Подтвердите ваш пароль"/>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+        </div>
+        <div class="text-center mt-3">
+            <p>
+                Уже есть аккаунт? <a href="/Login">Войдите</a>
+            </p>
+        </div>
+    </form>
+    <partial name="Shared/_ErrorMessage" model="@Model.ErrorMessage"/>
+</div>
