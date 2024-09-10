@@ -10,24 +10,25 @@
     <h2 class="text-center">@ViewData["Title"]</h2>
     <form method="post">
         <div class="form-group">
-            <label for="Email">Электронная почта:</label>
-            <input type="email" id="Email" name="Email" class="form-control" required placeholder="Введите вашу электронную почту"/>
+            <label asp-for="Input.Email"></label>
+            <input asp-for="Input.Email" class="form-control" required placeholder="Введите вашу электронную почту"/>
+            <span asp-validation-for="Input.Email"></span>
         </div>
         <div class="form-group">
-            <label for="Password">Пароль:</label>
-            <input type="password" id="Password" name="Password" class="form-control" required placeholder="Введите ваш пароль"/>
+            <label asp-for="Input.Password"></label>
+            <input asp-for="Input.Password" class="form-control" required placeholder="Введите ваш пароль"/>
+            <span asp-validation-for="Input.Password" ></span>
         </div>
         <div class="text-center">
             <button type="submit" class="btn btn-primary">Войти</button>
         </div>
         <div class="text-center mt-3">
             <p>
-                Нет аккаунта? <a href="/Register">Зарегистрируйтесь</a>
+                Нет аккаунта? <a asp-page="/Register">Зарегистрируйтесь</a>
             </p>
             <p>
-                <a href="/ForgotPassword">Забыли пароль?</a>
+                <a asp-page="/ForgotPassword">Забыли пароль?</a>
             </p>
         </div>
     </form>
-    <partial name="Shared/_ErrorMessage" model="@Model.ErrorMessage"/>
 </div>

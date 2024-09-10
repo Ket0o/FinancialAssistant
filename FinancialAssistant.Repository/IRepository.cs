@@ -1,0 +1,22 @@
+﻿using System.Linq.Expressions;
+
+namespace FinancialAssistant.Repository;
+
+public interface IRepository<T> where T : class
+{
+    Task<IEnumerable<T>?> GetAllAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken);
+
+    Task<T?> GetAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken);
+
+    Task AddAsync(T entity);
+
+    Task AddRangeAsync(IEnumerable<T> entities);
+    
+    Task UpdateAsync(T entity);
+    
+    Task UpdateRangeAsync(IEnumerable<T> entities);
+
+    Task DeleteAsync(T entity);
+    
+    Task DeleteRangeAsync(IEnumerable<T> entities);
+}

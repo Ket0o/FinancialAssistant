@@ -10,25 +10,32 @@
     <h2 class="text-center">@ViewData["Title"]</h2>
     <form method="post">
         <div class="form-group">
-            <label for="Email">Электронная почта:</label>
-            <input type="email" id="Email" name="Email" class="form-control" required placeholder="Введите вашу электронную почту"/>
+            <label asp-for="Input.UserName"></label>
+            <input asp-for="Input.UserName" class="form-control" required placeholder="Введите ваше имя пользователя"/>
+            <span asp-validation-for="Input.UserName"></span>
         </div>
         <div class="form-group">
-            <label for="Password">Пароль:</label>
-            <input type="password" id="Password" name="Password" class="form-control" required placeholder="Введите ваш пароль"/>
+            <label asp-for="Input.Email"></label>
+            <input asp-for="Input.Email" class="form-control" required placeholder="Введите вашу почту"/>
+            <span asp-validation-for="Input.Email"></span>
         </div>
         <div class="form-group">
-            <label for="ConfirmPassword">Подтверждение пароля:</label>
-            <input type="password" id="ConfirmPassword" name="ConfirmPassword" class="form-control" required placeholder="Подтвердите ваш пароль"/>
+            <label asp-for="Input.Password"></label>
+            <input asp-for="Input.Password" class="form-control" required placeholder="Введите пароль"/>
+            <span asp-validation-for="Input.Password"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Input.ConfirmPassword"></label>
+            <input asp-for="Input.ConfirmPassword" class="form-control" required placeholder="Введите пароль еще раз"/>
+            <span asp-validation-for="Input.ConfirmPassword"></span>
         </div>
         <div class="text-center">
             <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
         </div>
         <div class="text-center mt-3">
             <p>
-                Уже есть аккаунт? <a href="/Login">Войдите</a>
+                Уже есть аккаунт? <a asp-page="/Login">Войдите</a>
             </p>
         </div>
     </form>
-    <partial name="Shared/_ErrorMessage" model="@Model.ErrorMessage"/>
 </div>
