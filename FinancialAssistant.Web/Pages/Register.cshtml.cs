@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using FinancialAssistant.Authentication;
 using FinancialAssistant.DataTransfer.User;
-using FinancialAssistant.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -23,7 +23,7 @@ namespace FinancialAssistant.Web.Pages
         {
         }
 
-        public async Task<IActionResult> OnPost()
+        public async Task<ActionResult> OnPost()
         {
             if(!ModelState.IsValid)
                 return Page();

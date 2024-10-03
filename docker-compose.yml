@@ -1,0 +1,10 @@
+services:
+  financialassistant.web:
+    image: financialassistant.web
+    container_name: financialassistant.web
+    build:
+      context: .
+      dockerfile: FinancialAssistant.Web\Dockerfile
+    environment:
+        - ASPNETCORE_ENVIRONMENT=Production
+        - 

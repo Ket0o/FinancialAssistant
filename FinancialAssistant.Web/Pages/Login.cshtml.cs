@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using FinancialAssistant.Authentication;
 using FinancialAssistant.DataTransfer.User;
-using FinancialAssistant.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -23,13 +23,13 @@ namespace FinancialAssistant.Web.Pages
         {
 
         }
-
+        
         public async Task<IActionResult> OnPost()
         {
             if (!ModelState.IsValid)
                 return Page();
 
-            var tokens = await _userService.AuthorizationUser(new AuthorizationUserDto(Input.Email, Input.Password),
+            var tokens = await _userService.AuthenticationUser(new AuthorizationUserDto(Input.Email, Input.Password),
                 Input.CancellationToken);
 
             if (string.IsNullOrWhiteSpace(tokens.AccessToken) || string.IsNullOrWhiteSpace(tokens.RefreshToken))

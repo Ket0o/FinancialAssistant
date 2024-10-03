@@ -4,6 +4,9 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>e479d0a9-aa63-4b11-848f-9368c7ef03e1</UserSecretsId>
+    <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,13 +19,19 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.5" />
     <PackageReference Include="Npgsql" Version="8.0.3" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FinancialAssistant.Authentication\FinancialAssistant.Authentication.csproj" />
     <ProjectReference Include="..\FinancialAssistant.DataAccess\FinancialAssistant.DataAccess.csproj" />
     <ProjectReference Include="..\FinancialAssistant.DataTransfer\FinancialAssistant.DataTransfer.csproj" />
+    <ProjectReference Include="..\FinancialAssistant.EmailService\FinancialAssistant.EmailService.csproj" />
+    <ProjectReference Include="..\FinancialAssistant.EmojiService\FinancialAssistant.EmojiService.csproj" />
+    <ProjectReference Include="..\FinancialAssistant.ExchangeRates\FinancialAssistant.ExchangeRates.csproj" />
     <ProjectReference Include="..\FinancialAssistant.Repository\FinancialAssistant.Repository.csproj" />
   </ItemGroup>
 

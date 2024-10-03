@@ -1,8 +1,48 @@
 ﻿@page
 @model FinancialAssistant.Web.Pages.IndexModel
 @{
-	ViewData["Title"] = "Index";
+    ViewData["Title"] = "Главная страница";
+    ViewData["CssHref"] = "/css/home.css";
 }
+ 
+ <div class="greeting">
+     <h2>@Model.GreetingMessage @Model.Emoji</h2>
+ </div>
+ 
+ <div class="operations-block">
+     <h3>Последние операции</h3>
+     <div class="operations-list">
+         @foreach (var operation in Model.LastOperations)
+         {
+             <div class="operation" style="background:@operation.Color;">
+                 <p><strong>@operation.Place</strong></p>
+                 <p>Сумма: @operation.Amount</p>
+                 <p>Дата: @operation.Date.ToShortDateString()</p>
+             </div>
+         }
+     </div>
+ </div>
+ 
+<div class="flex-container">
+    <div class="block">
+        <h3><img src="/Icons/USD.png" class="icon">1 доллар США</h3>
+        <ul class="grid-list">
+            @foreach (var rate in Model.Currencies)
+            {
+                <li><img src="/Icons/@(rate.Name).png" class="icon">@rate.Name: @rate.Value</li>
+            }
+        </ul>
+        <h3>(Обновлено: @Model.LastCurrenciesUpdateTime)</h3>
+    </div>
+    
+    @* <div class="block"> *@
+    @*     <h3>Тестовый блок</h3> *@
+    @*     <ul> *@
+    @*         <li>1. Тест тест тест тест тест тест тест тест</li> *@
+    @*         <li>2. Тест тест тест тест тест тест тест тест</li> *@
+    @*         <li>3. Тест тест тест тест тест тест тест тест</li> *@
+    @*         <li>4. Тест тест тест тест тест тест тест тест</li> *@
+    @*     </ul> *@
+    @* </div> *@
+</div>
 
-<h1>Category: </h1>
-<h1>Name: </h1>

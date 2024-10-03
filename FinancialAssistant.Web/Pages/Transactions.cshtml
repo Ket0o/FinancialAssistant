@@ -1,0 +1,72 @@
+﻿@page
+@model FinancialAssistant.Web.Pages.TransactionsModel
+@{
+    ViewData["Title"] = "Главная страница";
+    ViewData["CssHref"] = "/css/transactions.css";
+}
+
+<div class="main-content">
+    <div class="header">
+        <div class="account-info">
+            <span class="account-name">@Model.AccountName</span>
+            <span class="account-balance">Сумма счета: @Model.AccountBalance</span> <!-- Добавлено отображение суммы счета -->
+        </div>
+        <div class="account-selector">
+            <div class="arrow left" onclick="navigateMonth(-1)">&#9664;</div>
+            <span>@Model.CurrentMonth.ToString("MMMM yyyy")</span>
+            <div class="arrow right" onclick="navigateMonth(1)">&#9654;</div>
+        </div>
+        <div class="vertical-line"></div>
+        <div class="summary">
+            <div class="expenses">
+                <h3>Расходы</h3>
+                <span>Всего: @Model.TotalExpenses</span>
+                <a href="@Url.Page("ExpenseDetails", new { id = Model.LastExpenseId })">Последний расход: @Model.LastExpenseAmount</a>
+            </div>
+            <div class="income">
+                <h3>Доходы</h3>
+                <span>Всего: @Model.TotalIncome</span>
+                <a href="@Url.Page("IncomeDetails", new { id = Model.LastIncomeId })">Последний доход: @Model.LastIncomeAmount</a>
+            </div>
+        </div>
+    </div>
+
+    <h2>История</h2>
+    <div class="transaction-list">
+        @foreach (var transaction in Model.Transactions)
+        {
+        <div class="transaction-item" onclick="openTransactionDetails(@transaction.Id)">
+            <span>@transaction.Date.ToShortDateString()</span>
+            <span>@transaction.Name</span>
+            <span>@transaction.Category</span>
+            <span>@transaction.TransactionType</span>
+            <span>@transaction.Amount</span>
+            <span class="category-color" style="background-color: @transaction.CategoryColor;"></span>
+        </div>
+        }
+    </div>
+
+    <div class="navigation-buttons">
+        @if (Model.HasPreviousMonth)
+        {
+            <button onclick="navigateMonth(-1)">Предыдущий месяц</button>
+        }
+    </div>
+</div>
+
+<div class="back-to-top">
+    <button onclick="scrollToTop()">Вернуться наверх</button>
+</div>
+<script>
+    function navigateMonth(direction) {
+        // Логика для переключения месяца
+    }
+
+    function openTransactionDetails(id) {
+        // Логика для открытия карточки транзакции
+    }
+
+    function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>
