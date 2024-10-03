@@ -3,10 +3,9 @@
 @{
     Layout = "Shared/_Authentication";
     ViewData["Title"] = "Вход в систему";
-    ViewData["CssHref"] = "/css/login.css";
 }
 
-<div class="login-container">
+<div class="authentication-container">
     <h2 class="text-center">@ViewData["Title"]</h2>
     <form method="post">
         <div class="form-group">
@@ -24,10 +23,10 @@
         </div>
         <div class="text-center mt-3">
             <p>
-                Нет аккаунта? <a asp-page="/Register">Зарегистрируйтесь</a>
+                Нет аккаунта? <a asp-page="/register">Зарегистрируйтесь</a>
             </p>
             <p>
-                <a asp-page="/ForgotPassword">Забыли пароль?</a>
+                <a asp-page="/forgotPassword">Забыли пароль?</a>
             </p>
         </div>
     </form>

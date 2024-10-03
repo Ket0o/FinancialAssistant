@@ -1,0 +1,91 @@
+﻿body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Задает минимальную высоту для body */
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #121212; /* Темный фон для всего тела */
+    color: #FFFFFF; /* Белый текст по умолчанию */
+}
+
+.greeting {
+    display: flex;
+    align-items: center; /* Центрируем по вертикали */
+    margin-bottom: 20px; /* Отступ снизу для приветствия */
+}
+
+.icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px; /* Отступ справа от иконки */
+}
+
+.block {
+    background-color: #2C2C2C; /* Темный фон для блока */
+    border-radius: 8px; /* Закругленные углы */
+    padding: 20px; /* Отступы внутри блока */
+    flex: 0 0 calc(50% - 10px); /* Занимаем половину ширины с учетом отступа */
+    box-sizing: border-box;
+}
+
+.block h3, .block li {
+    display: flex; /* Используем Flexbox */
+    align-items: center; /* Центрируем по вертикали */
+}
+
+.operations-block {
+    overflow-x: auto; /* Добавляем горизонтальную прокрутку */
+    background-color: #2C2C2C; /* Темный фон для блока операций */
+    border-radius: 8px; /* Закругленные углы */
+    padding: 20px; /* Отступы внутри блока */
+    margin-bottom: 20px;
+}
+
+.operations-list {
+    display: flex;
+    flex-wrap: nowrap; /* Элементы не переносятся на новую строку */
+    gap: 10px; /* Отступы между квадратами */
+}
+
+.operation {
+    border-radius: 8px; /* Закругленные углы для операций */
+    padding: 10px;
+    color: #FFFFFF; /* Белый текст внутри операций */
+    width: calc(2 * 100%);
+    min-height: 100px;
+    min-width: 150px;
+    text-align: center; /* Центрирование текста внутри квадрата */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Легкая тень для квадрата */
+}
+
+.flex-container {
+    display: flex; /* Используем Flexbox для расположения блоков */
+    justify-content: space-between; /* Распределяем блоки по ширине */
+    margin-bottom: 20px; /* Отступ снизу для контейнера */
+    gap: 20px; /* Отступы между блоками */
+}
+
+.block ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.block li {
+    margin: 5px 0;
+}
+
+.grid-list {
+    display: grid; /* Используем Grid */
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Автоматически заполняем столбцы */
+    grid-auto-rows: minmax(50px, auto); /* Минимальная высота строки */
+    gap: 10px; /* Отступы между элементами */
+    list-style-type: none; /* Убираем маркеры списка */
+    padding: 0; /* Убираем отступы */
+}
+
+.grid-list li {
+    background-color: #2C2C2C; /* Фон для элементов списка */
+    border-radius: 8px; /* Закругленные углы */
+    padding: 10px; /* Отступы внутри элемента */
+    color: #FFFFFF; /* Цвет текста */
+}

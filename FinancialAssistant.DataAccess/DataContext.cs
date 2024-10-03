@@ -16,4 +16,8 @@ public class DataContext : DbContext
     }
 
     public DbSet<User> Users { get; set; } = null!;
+    public DbSet<Account> Accounts { get; set; } = null!;
+    public DbSet<Category> Categories { get; set; } = null!;
+    public DbSet<Transaction> Transactions { get; set; } = null!;
+    public DbSet<PasswordResetCode> PasswordResetCodes  { get; set; } = null!;
 }

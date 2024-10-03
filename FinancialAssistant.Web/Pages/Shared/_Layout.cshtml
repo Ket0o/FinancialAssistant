@@ -5,23 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewData["Title"]</title>
     <link asp-append-version="true" rel="stylesheet" href="~/css/styles.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link asp-append-version="true" rel="stylesheet" href="@ViewData["CssHref"]"/>
 </head>
 <body>
-    <nav>
-        <a href="#home">Главная</a>
-        <a href="#about">О нас</a>
-        <a href="#services">Услуги</a>
-        <a href="#contact">Контакты</a>
+
+<nav>
+        <div>
+            <a href="/">Главная</a>
+            <a href="/Transactions">Планировщик бюджета</a>
+            <a href="#services">Услуги</a>
+            <a href="#contact">Контакты</a>
+        </div>
+        @await Component.InvokeAsync("UserInfo")
     </nav>
 
-    <main>
-        @RenderBody()
-    </main>
+<main>
+    @RenderBody()
+</main>
 
-    <footer>
-        <p>&copy; @DateTime.Now.Year Мой сайт. Все права защищены.</p>
-        <p>Контактная информация: kupregion3@gmail.com</p>
-    </footer>
+<footer>
+    <p>&copy; @DateTime.Now.Year Мой сайт. Все права защищены.</p>
+    <p>Контактная информация:<a href="mailto: kupregion3@gmail.com">kupregion3@gmail.com</a></p>
+</footer>
+
+<script>
+        const userInfo = document.getElementById('userInfo');
+        const menu = document.getElementById('menu');
+        const profileLink = document.getElementById('profile');
+        const logoutLink = document.getElementById('logout');
+
+        userInfo.addEventListener('click', () => {
+            menu.style.display = menu.style.display === 'none' || menu.style.display === '' ? 'block' : 'none';
+        });
+
+        window.addEventListener('click', (event) => {
+            if (!userInfo.contains(event.target) && !menu.contains(event.target)) {
+                menu.style.display = 'none';
+            }
+        });
+
+        profileLink.addEventListener('click', () => {
+            window.location.href = '/Profile';
+        });
+
+        logoutLink.addEventListener('click', () => {
+            window.location.href = '/Logout';
+        });
+    </script>
 
 </body>
+
 </html>

@@ -13,12 +13,19 @@ public class Repository<T> : IRepository<T> where T : class
         _dbContext = dbContext;
     }
 
-    public async Task<IEnumerable<T>?> GetAllAsync(Expression<Func<T, bool>> predicate, 
+    public async Task<List<T>?> GetAllAsync(Expression<Func<T, bool>> predicate, 
         CancellationToken cancellationToken) 
-        => await _dbContext.Set<T>().Where(predicate).AsNoTracking().ToListAsync(cancellationToken: cancellationToken);
+        => await _dbContext.Set<T>()
+            .AsNoTracking()
+            .AsQueryable()
+            .Where(predicate)
+            .ToListAsync(cancellationToken: cancellationToken);
 
     public async Task<T?> GetAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken)
-        => await _dbContext.Set<T>().AsNoTracking().FirstOrDefaultAsync(predicate, cancellationToken);
+        => await _dbContext.Set<T>()
+            .AsNoTracking()
+            .AsQueryable()
+            .FirstOrDefaultAsync(predicate, cancellationToken);
 
     public async Task AddAsync(T entity)
     {

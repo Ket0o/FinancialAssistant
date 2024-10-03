@@ -1,0 +1,130 @@
+﻿.main-content {
+    background-color: #2C2C2C;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 800px;
+    margin: 20px auto;
+    color: #FFFFFF;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Центрируем содержимое */
+    margin-bottom: 20px;
+}
+
+.account-info {
+    text-align: center; /* Центрируем текст */
+    margin-right: 20px; /* Отступ справа для стрелок */
+    color: #FFFFFF; /* Белый текст */
+}
+
+.account-name {
+    font-size: 20px; /* Размер шрифта для имени счета */
+    font-weight: bold; /* Жирный шрифт */
+}
+
+.account-balance {
+    font-size: 16px; /* Размер шрифта для суммы счета */
+}
+
+.account-selector {
+    display: flex;
+    align-items: center;
+}
+
+.arrow {
+    cursor: pointer;
+    margin: 0 10px;
+    font-size: 20px;
+}
+
+.vertical-line {
+    width: 1px;
+    background-color: #FFFFFF; /* Цвет линии */
+    height: 60px; /* Высота линии */
+    margin: 0 20px; /* Отступы слева и справа */
+}
+
+.summary {
+    display: flex;
+    justify-content: space-between; /* Разделяем блоки расходов и доходов */
+    width: 100%; /* Занимаем всю ширину */
+}
+
+.expenses, .income {
+    text-align: center; /* Центрируем текст внутри блоков */
+    color: #FFFFFF; /* Белый текст */
+}
+
+.expenses h3, .income h3 {
+    margin: 0; /* Убираем отступы для заголовков */
+}
+
+.transaction-list {
+    margin-top: 20px;
+}
+
+.transaction-item {
+    background-color: #3C3C3C; /* Темный фон для транзакции */
+    border-radius: 8px;
+    padding: 10px;
+    margin: 5px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.transaction-item:hover {
+    background-color: #FF9800; /* Оранжевый при наведении */
+}
+
+.category-color {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%; /* Круглая форма для цвета категории */
+}
+
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.navigation-buttons button {
+    background-color: #FF9800; /* Оранжевый фон для кнопки */
+    color: #FFFFFF; /* Белый текст */
+    border: none; /* Убираем рамку */
+    border-radius: 25px; /* Закругленные углы */
+    padding: 10px 20px; /* Отступы внутри кнопки */
+    cursor: pointer; /* Указатель при наведении */
+    transition: background-color 0.3s ease; /* Плавный переход при наведении */
+}
+
+.navigation-buttons button:hover {
+    background-color: #c07400; /* Яркий желтый при наведении */
+}
+
+.back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+
+.back-to-top button {
+    background-color: #FF9800; /* Оранжевый фон для кнопки */
+    color: #FFFFFF; /* Белый текст */
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.back-to-top button:hover {
+    background-color: #c07400; /* Яркий желтый при наведении */
+}
+

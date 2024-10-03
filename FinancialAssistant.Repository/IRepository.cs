@@ -4,7 +4,7 @@ namespace FinancialAssistant.Repository;
 
 public interface IRepository<T> where T : class
 {
-    Task<IEnumerable<T>?> GetAllAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken);
+    Task<List<T>?> GetAllAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken);
 
     Task<T?> GetAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken);
 

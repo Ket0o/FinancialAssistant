@@ -1,45 +1,157 @@
-﻿body {
+﻿nav {
+    position: relative; /* Для правильного позиционирования выпадающего меню */
+    display: flex; /* Используем flexbox для центрирования содержимого */
+    justify-content: space-between; /* Разделяем элементы навигации */
+    align-items: center; /* Выравниваем по центру по вертикали */
+    padding: 20px; /* Отступы для навигации */
+    background-color: #1E1E1E; /* Темный фон для навигации */
+    border-radius: 8px; /* Закругленные углы */
+}
+
+nav a {
+    color: #FFFFFF; /* Яркий желтый цвет ссылок */
+    text-decoration: none;
+    font-weight: bold;
+    margin: 0 15px;
+    padding: 10px 20px;
+    border-radius: 25px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+nav a:hover {
+    background-color: #FF9800; /* Оранжевый при наведении */
+    color: #FFFFFF; /* Белый текст при наведении */
+}
+
+/* Стили для выпадающего меню */
+#menu {
+    display: none;
+    border: 1px solid #ccc;
+    background-color: #1E1E1E; /* Темный фон для меню */
+    position: absolute;
+    padding: 10px;
+    border-radius: 8px; /* Закругленные углы */
+    z-index: 1000; /* Чтобы меню было поверх других элементов */
+    right: 0; /* Расположение меню справа */
+    top: 50px; /* Устанавливаем отступ сверху, чтобы меню открывалось под профилем */
+}
+
+.menu-item {
+    padding: 10px;
+    color: #FFFFFF; /* Белый текст для пунктов меню */
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Плавный переход при наведении */
+}
+
+.menu-item:hover {
+    background-color: #FF9800; /* Оранжевый при наведении */
+}
+
+/* Стили для пользователя */
+.user-info {
+    display: flex;
+    align-items: center; /* Центрируем по вертикали */
+    cursor: pointer; /* Указатель при наведении */
+}
+
+.user-circle {
+    width: 40px; /* Ширина кружка */
+    height: 40px; /* Высота кружка */
+    background-color: #FF9800; /* Цвет кружка */
+    color: #FFFFFF; /* Цвет текста в кружке */
+    border-radius: 50%; /* Закругляем кружок */
+    display: flex;
+    align-items: center; /* Центрируем текст по вертикали */
+    justify-content: center; /* Центрируем текст по горизонтали */
+    margin-right: 10px; /* Отступ справа от кружка */
+}
+
+body {
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Задает минимальную высоту для body */
+    min-height: 100vh;
+    /* Задает минимальную высоту для body */
     margin: 0;
     font-family: Arial, sans-serif;
+    background-color: #121212;
+    /* Темный фон для всего тела */
+    color: #FFFFFF;
+    /* Белый текст по умолчанию */
 }
 
 header {
-    background-color: #4CAF50;
-    color: white;
+    background-color: #FFEB3B;
+    /* Яркий желтый фон */
+    color: #FFFFFF;
+    /* Белый текст */
     padding: 10px 20px;
     text-align: center;
 }
 
-nav {
-    background-color: #333;
-    overflow: hidden;
-}
-
-    nav a {
-        float: left;
-        display: block;
-        color: white;
-        text-align: center;
-        padding: 14px 16px;
-        text-decoration: none;
-    }
-
-        nav a:hover {
-            background-color: #ddd;
-            color: black;
-        }
-
 main {
-    flex: 1; /* Позволяет основному контенту занимать оставшееся пространство */
+    flex: 1;
+    /* Позволяет основному контенту занимать оставшееся пространство */
     padding: 20px;
+    display: flex;
+    /* Используем flexbox для центрирования содержимого */
+    flex-direction: column;
+    /* Вертикальная ориентация для содержимого */
+    background-color: #1E1E1E;
+    /* Темный фон для основного контента */
+    margin: 20px 0;
+    border-radius: 8px;
+    /* Закругленные углы */
 }
 
-footer {
-    background-color: #333;
-    color: white;
-    text-align: center;
+.main-content {
+    background-color: #2C2C2C;
+    /* Темный фон для квадрата */
     padding: 20px;
+    border-radius: 8px;
+    /* Закругленные углы */
+    max-width: 600px;
+    /* Максимальная ширина квадрата */
+    width: 100%;
+    /* Ширина 100% для адаптивности */
+    text-align: center;
+    /* Центрирование текста внутри квадрата */
+    color: #FFFFFF;
+    /* Белый текст внутри квадрата */
+    margin: 20px 0;
+    /* Отступы сверху и снизу для контента внутри блока */
+}
+
+/* Футер */
+footer {
+    background-color: #1E1E1E;
+    /* Темный фон для футера */
+    color: #FFFFFF;
+    /* Белый текст */
+    padding: 20px 0;
+    text-align: center;
+    font-size: 14px;
+    border-radius: 8px;
+}
+
+footer a {
+    color: #FFEB3B;
+    /* Яркий желтый цвет ссылок */
+    text-decoration: none;
+    margin: 0 10px;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: #FF9800;
+    /* Оранжевый при наведении */
+}
+
+footer .social-icons a {
+    color: #FFEB3B;
+    /* Яркий желтый цвет иконок */
+}
+
+footer .social-icons a:hover {
+    color: #FF9800;
+    /* Оранжевый при наведении */
 }
