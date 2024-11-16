@@ -4,9 +4,9 @@ namespace FinancialAssistant.Repository;
 
 public interface IRepository<T> where T : class
 {
-    Task<List<T>?> GetAllAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken);
+    Task<List<T>?> GetAllAsync(Expression<Func<T, bool>>? predicate = null, CancellationToken cancellationToken);
 
-    Task<T?> GetAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken);
+    Task<T?> GetAsync(Expression<Func<T, bool>>? predicate = null, CancellationToken cancellationToken);
 
     Task AddAsync(T entity);
 
