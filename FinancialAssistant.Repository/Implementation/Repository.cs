@@ -13,19 +13,31 @@ public class Repository<T> : IRepository<T> where T : class
         _dbContext = dbContext;
     }
 
-    public async Task<List<T>?> GetAllAsync(Expression<Func<T, bool>> predicate, 
-        CancellationToken cancellationToken) 
-        => await _dbContext.Set<T>()
+    public async Task<List<T>?> GetAllAsync(Expression<Func<T, bool>>? predicate = null,
+        CancellationToken cancellationToken)
+    {
+        var query = _dbContext.Set<T>()
             .AsNoTracking()
-            .AsQueryable()
-            .Where(predicate)
-            .ToListAsync(cancellationToken: cancellationToken);
+            .AsQueryable();
 
-    public async Task<T?> GetAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken)
-        => await _dbContext.Set<T>()
+        if (predicate is { } notNullPredicate)
+            query = query.Where(notNullPredicate);
+       
+        return await query.ToListAsync(cancellationToken);
+    }
+
+    public async Task<T?> GetAsync(Expression<Func<T, bool>>? predicate = null, 
+        CancellationToken cancellationToken)
+    {
+        var query = _dbContext.Set<T>()
             .AsNoTracking()
-            .AsQueryable()
-            .FirstOrDefaultAsync(predicate, cancellationToken);
+            .AsQueryable();
+
+        if (predicate is { } notNullPredicate)
+            query = query.Where(notNullPredicate);
+
+        return await query.FirstOrDefaultAsync(cancellationToken); 
+    }
 
     public async Task AddAsync(T entity)
     {

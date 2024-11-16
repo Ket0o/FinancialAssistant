@@ -20,9 +20,15 @@
     color: #FFFFFF; /* Белый текст */
 }
 
-.account-name {
+.account-name select{
+    background-color: #FF9800; /* Оранжевый фон для кнопки */
+    color: #FFFFFF; /* Белый текст */
+    border: none; /* Убираем рамку */
+    border-radius: 25px; /* Закругленные углы */
     font-size: 20px; /* Размер шрифта для имени счета */
     font-weight: bold; /* Жирный шрифт */
+    text-align: center;
+    width: 225px;
 }
 
 .account-balance {
@@ -108,9 +114,29 @@
     background-color: #c07400; /* Яркий желтый при наведении */
 }
 
-.back-to-top {
+.addTransaction{
     position: fixed;
     bottom: 20px;
+    right: 20px;
+}
+
+.addTransaction button{
+    background-color: #FF9800; /* Оранжевый фон для кнопки */
+    color: #FFFFFF; /* Белый текст */
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.addTransaction button:hover {
+    background-color: #c07400; /* Яркий желтый при наведении */
+}
+
+.back-to-top {
+    position: fixed;
+    bottom: 70px;
     right: 20px;
 }
 
@@ -126,5 +152,55 @@
 
 .back-to-top button:hover {
     background-color: #c07400; /* Яркий желтый при наведении */
+}
+
+.account-selector select{
+    border-radius: 15px;
+    text-decoration: none;
+    border: none;
+    font-size: 20px;
+    text-align: center;
+    background-color: #FF9800;
+    color: #FFFFFF;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.modal {
+    display: none; /* Скрыто по умолчанию */
+    position: fixed; /* Окно фиксировано */
+    z-index: 1; /* На переднем плане */
+    left: 0;
+    top: 0;
+    width: 100%; /* Полная ширина */
+    height: 100%; /* Полная высота */
+    overflow: auto; /* Включает прокрутку, если необходимо */
+    background-color: rgba(0, 0, 0, 0.5); /* Затемнение фона */
+}
+
+.modal-content {
+    background-color: #2C2C2C;
+    color: #FFFFFF;
+    margin: 15% auto; /* Центрирование */
+    padding: 20px;
+    width: 80%; /* Ширина модального окна */
+    max-width: 500px; /* Максимальная ширина */
+    border-radius: 15px
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }
 

@@ -1,4 +1,5 @@
 ﻿@page
+@using FinancialAssistant.DataTransfer.Enums
 @model FinancialAssistant.Web.Pages.TransactionsModel
 @{
     ViewData["Title"] = "Главная страница";
@@ -8,13 +9,29 @@
 <div class="main-content">
     <div class="header">
         <div class="account-info">
-            <span class="account-name">@Model.AccountName</span>
-            <span class="account-balance">Сумма счета: @Model.AccountBalance</span> <!-- Добавлено отображение суммы счета -->
+            <span class="account-name">
+                <select>
+                    @foreach (var accountName in Model.AccountNames)
+                    {
+                        <option>@accountName</option>
+                    }
+                </select>
+            </span>
+            <span class="account-balance">Сумма счета: @Model.AccountBalance</span> 
         </div>
         <div class="account-selector">
-            <div class="arrow left" onclick="navigateMonth(-1)">&#9664;</div>
-            <span>@Model.CurrentMonth.ToString("MMMM yyyy")</span>
-            <div class="arrow right" onclick="navigateMonth(1)">&#9654;</div>
+            <select>
+                @foreach (var month in Enum.GetValues(typeof(MonthsEnum)))
+                {
+                    if (month.Equals(Enum.GetValues(typeof(MonthsEnum)).GetValue(DateTime.Now.Month - 1)))
+                    {
+                        <option selected="selected">@month</option>
+                        continue;
+                    }
+                    
+                    <option>@month</option>
+                }
+            </select>
         </div>
         <div class="vertical-line"></div>
         <div class="summary">
@@ -35,7 +52,7 @@
     <div class="transaction-list">
         @foreach (var transaction in Model.Transactions)
         {
-        <div class="transaction-item" onclick="openTransactionDetails(@transaction.Id)">
+        <div class="transaction-item" onclick="openTransaction()">
             <span>@transaction.Date.ToShortDateString()</span>
             <span>@transaction.Name</span>
             <span>@transaction.Category</span>
@@ -45,25 +62,48 @@
         </div>
         }
     </div>
-
-    <div class="navigation-buttons">
-        @if (Model.HasPreviousMonth)
-        {
-            <button onclick="navigateMonth(-1)">Предыдущий месяц</button>
-        }
-    </div>
 </div>
 
+<div class="addTransaction">
+    <button onclick="openTransaction()">Добавить транзакцию</button>
+</div>
 <div class="back-to-top">
     <button onclick="scrollToTop()">Вернуться наверх</button>
 </div>
-<script>
-    function navigateMonth(direction) {
-        // Логика для переключения месяца
-    }
 
-    function openTransactionDetails(id) {
-        // Логика для открытия карточки транзакции
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeModal" onclick="closeTransaction()">&times;</span>
+        <h2>Изменить транзакцию</h2>
+        <input type="text" placeholder="Введите текст">
+        
+       
+        <button id="save" onclick="saveTransaction()">Сохранить</button>
+        <button id="cancel" onclick="closeTransaction()">Отмена</button>
+    </div>
+</div>
+
+<script>
+    const modal = document.getElementById("modal");
+    
+    function openTransaction() {
+        modal.style.display = "block";
+    }
+    
+    function closeTransaction() {
+        modal.style.display = "none";
+    }
+    
+    function saveTransaction(){
+        //TODO: сделать сохранение
+        alert("Данные сохранены!");
+        modal.style.display = "none";
+    }
+    
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
     }
 
     function scrollToTop() {
