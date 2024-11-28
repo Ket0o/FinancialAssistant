@@ -4,3 +4,4 @@ public class EmojiSettings
 {
     public string AccessKey { get; set; } = String.Empty;
 }
+    

@@ -52,7 +52,15 @@
     <div class="transaction-list">
         @foreach (var transaction in Model.Transactions)
         {
-        <div class="transaction-item" onclick="openTransaction()">
+            <div class="transaction-item"
+                 data-id="@transaction.Id"
+                 data-date="@transaction.Date.ToString("o")"
+                 data-name="@transaction.Name"
+                 data-category="@transaction.Category"
+                 data-amount="@transaction.Amount"
+                 data-account="@transaction.Account"
+                 data-description="@transaction.Description"
+                 onclick="openTransaction(this)">
             <span>@transaction.Date.ToShortDateString()</span>
             <span>@transaction.Name</span>
             <span>@transaction.Category</span>
@@ -75,9 +83,25 @@
     <div class="modal-content">
         <span class="close" id="closeModal" onclick="closeTransaction()">&times;</span>
         <h2>Изменить транзакцию</h2>
-        <input type="text" placeholder="Введите текст">
         
-       
+        <label>Название:</label>
+        <input id="input__transaction__name" type="text"><br/><br/>
+
+        <label>Счет:</label>
+        <input id="input__transaction__account" type="text"><br/><br/>
+
+        <label>Категория:</label>
+        <input id="input__transaction__category" type="text"><br/><br/>
+
+        <label>Сумма:</label>
+        <input id="input__transaction__amount" type="text"><br/><br/>
+        
+        <label>Дата:</label>
+        <input id="input__transaction__date" type="text"><br/><br/>
+
+        <label>Описание:</label>
+        <input id="input__transaction__description" type="text"><br/><br/>
+        
         <button id="save" onclick="saveTransaction()">Сохранить</button>
         <button id="cancel" onclick="closeTransaction()">Отмена</button>
     </div>
@@ -85,21 +109,50 @@
 
 <script>
     const modal = document.getElementById("modal");
-    
-    function openTransaction() {
+    const inputAccount = document.getElementById("input__transaction__account");
+    const inputName = document.getElementById("input__transaction__name");
+    const inputCategory = document.getElementById("input__transaction__category");
+    const inputAmount = document.getElementById("input__transaction__amount");
+    const inputDate = document.getElementById("input__transaction__date");
+    const inputDescription = document.getElementById("input__transaction__description");
+
+    function openTransaction(element = null) {
+        if (element === null){
+            modal.style.display = "block";
+            inputName.value = null;
+            inputAccount.value = null;
+            inputCategory.value = null;
+            inputAmount.value = null;
+            inputDate.value = null;
+            inputDescription.value = null;
+            return;
+        }
+        const transaction = {
+            Id: element.getAttribute('data-id'),
+            Date: element.getAttribute('data-date'),
+            Name: element.getAttribute('data-name'),
+            Category: element.getAttribute('data-category'),
+            Amount: element.getAttribute('data-amount'),
+            Account: element.getAttribute('data-account'),
+            Description: element.getAttribute('data-description')
+        };
         modal.style.display = "block";
+        inputName.value = transaction.Name;
+        inputAccount.value = transaction.Account;
+        inputCategory.value = transaction.Category;
+        inputAmount.value = transaction.Amount;
+        inputDate.value = transaction.Date;
+        inputDescription.value = transaction.Description;
     }
-    
+
     function closeTransaction() {
         modal.style.display = "none";
     }
-    
+
     function saveTransaction(){
-        //TODO: сделать сохранение
-        alert("Данные сохранены!");
         modal.style.display = "none";
     }
-    
+
     window.onclick = function(event) {
         if (event.target == modal) {
             modal.style.display = "none";

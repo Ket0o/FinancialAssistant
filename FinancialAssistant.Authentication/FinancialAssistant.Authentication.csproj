@@ -9,6 +9,7 @@
     <ItemGroup>
       <ProjectReference Include="..\FinancialAssistant.DataTransfer\FinancialAssistant.DataTransfer.csproj" />
       <ProjectReference Include="..\FinancialAssistant.Repository\FinancialAssistant.Repository.csproj" />
+      <ProjectReference Include="..\FinancialAssistant.UserIdentity\FinancialAssistant.UserIdentity.csproj" />
     </ItemGroup>
 
     <ItemGroup>

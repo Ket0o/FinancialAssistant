@@ -1,4 +1,4 @@
-﻿namespace FinancialAssistant.Authentication;
+﻿namespace FinancialAssistant.UserIdentity;
 
 public interface IUserIdentityService
 {

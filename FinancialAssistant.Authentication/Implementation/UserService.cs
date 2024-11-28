@@ -3,6 +3,7 @@ using FinancialAssistant.DataTransfer.Password;
 using FinancialAssistant.DataTransfer.Token;
 using FinancialAssistant.DataTransfer.User;
 using FinancialAssistant.Repository;
+using FinancialAssistant.UserIdentity;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinancialAssistant.Authentication.Implementation;

@@ -1,11 +1,13 @@
 ﻿using FinancialAssistant.DataAccess;
 using FinancialAssistant.DataAccess.Model;
+using FinancialAssistant.UserIdentity;
 
 namespace FinancialAssistant.Repository.Implementation;
 
-public class CategoryRepository : Repository<Category>, ICategoryRepository
+public class CategoryRepository : RepositoryForContainsUserId<Category>, ICategoryRepository
 {
-    public CategoryRepository(DataContext dataContext) : base(dataContext)
+    public CategoryRepository(DataContext dataContext, IUserIdentityService identityService) 
+        : base(dataContext, identityService)
     {
         
     }

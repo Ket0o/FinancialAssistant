@@ -2,7 +2,7 @@
 
 namespace FinancialAssistant.Repository;
 
-public interface ICategoryRepository : IRepository<Category>
+public interface ICategoryRepository : IRepositoryForContainsUserId<Category>
 {
     
 }

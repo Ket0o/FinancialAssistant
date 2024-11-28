@@ -25,8 +25,8 @@ public class EmojiService : IEmojiService
         HttpClient httpClient,
         IOptions<EmojiSettings> options)
     {
-        _httpClient = httpClient;
         var settings = options.Value;
+        _httpClient = httpClient;
         _accessKey = settings.AccessKey;
     }
     
@@ -65,6 +65,6 @@ public class EmojiService : IEmojiService
                 .ToList();
         }
 
-        return _emojis;
+        return new List<GetEmojiDto>();
     }
 }

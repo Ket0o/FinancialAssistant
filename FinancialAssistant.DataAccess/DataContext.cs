@@ -12,7 +12,8 @@ public class DataContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        
+        modelBuilder.Entity<Transaction>().Navigation(transaction => transaction.Account).AutoInclude();
+        modelBuilder.Entity<Transaction>().Navigation(transaction => transaction.Category).AutoInclude();
     }
 
     public DbSet<User> Users { get; set; } = null!;
