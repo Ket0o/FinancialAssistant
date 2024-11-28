@@ -2,11 +2,13 @@
 
 namespace FinancialAssistant.Repository;
 
-public interface IRepository<T> where T : class
+public interface IRepository<T>
 {
-    Task<List<T>?> GetAllAsync(Expression<Func<T, bool>>? predicate = null, CancellationToken cancellationToken);
+    Task<List<T>?> GetAllAsync(Expression<Func<T, bool>>? predicate = null, CancellationToken cancellationToken = default, 
+        params Expression<Func<T, object?>>[] include);
 
-    Task<T?> GetAsync(Expression<Func<T, bool>>? predicate = null, CancellationToken cancellationToken);
+    Task<T?> GetAsync(Expression<Func<T, bool>>? predicate = null, CancellationToken cancellationToken = default, 
+        params Expression<Func<T, object?>>[] include);
 
     Task AddAsync(T entity);
 

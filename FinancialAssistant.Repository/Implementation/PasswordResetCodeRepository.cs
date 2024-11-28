@@ -1,14 +1,16 @@
 ﻿using FinancialAssistant.DataAccess;
 using FinancialAssistant.DataAccess.Model;
+using FinancialAssistant.UserIdentity;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinancialAssistant.Repository.Implementation;
 
-public class PasswordResetCodeRepository : Repository<PasswordResetCode>, IPasswordResetCodeRepository
+public class PasswordResetCodeRepository : RepositoryForContainsUserId<PasswordResetCode>, IPasswordResetCodeRepository
 {
     private readonly DataContext _dataContext;
     
-    public PasswordResetCodeRepository(DataContext dataContext) : base(dataContext)
+    public PasswordResetCodeRepository(DataContext dataContext, IUserIdentityService identityService) 
+        : base(dataContext, identityService)
     {
         _dataContext = dataContext;
     }

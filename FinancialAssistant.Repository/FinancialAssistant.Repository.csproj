@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\FinancialAssistant.DataAccess\FinancialAssistant.DataAccess.csproj" />
+      <ProjectReference Include="..\FinancialAssistant.UserIdentity\FinancialAssistant.UserIdentity.csproj" />
     </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
 ﻿using FinancialAssistant.Authentication;
+using FinancialAssistant.UserIdentity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinancialAssistant.Web.ViewComponents;

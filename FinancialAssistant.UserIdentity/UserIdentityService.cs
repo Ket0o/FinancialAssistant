@@ -1,7 +1,7 @@
 ﻿using FinancialAssistant.DataTransfer.User;
 using Microsoft.AspNetCore.Http;
 
-namespace FinancialAssistant.Authentication.Implementation;
+namespace FinancialAssistant.UserIdentity;
 
 public class UserIdentityService : IUserIdentityService
 {
@@ -15,11 +15,12 @@ public class UserIdentityService : IUserIdentityService
             : default;
 
     public long GetUserId()
-        => _contextAccessor.HttpContext?.User.FindFirst(nameof(UserClaimsDto.Sub)) is { } userId 
-            ? long.TryParse(userId.Value, out var result) 
-                ? result 
-                : default 
-            : default;
+    {
+        if (_contextAccessor.HttpContext?.User.Claims.First().Value is not { } userId)
+            return -1;
+        
+        return long.Parse(userId);
+    }
 
     public string? GetUserName()
         => _contextAccessor.HttpContext?.User.FindFirst(nameof(UserClaimsDto.Name)) is { } name 

@@ -15,7 +15,7 @@
          @foreach (var operation in Model.LastOperations)
          {
              <div class="operation" style="background:@operation.Color;">
-                 <p><strong>@operation.Place</strong></p>
+                 <p><strong>@operation.Name</strong></p>
                  <p>Сумма: @operation.Amount</p>
                  <p>Дата: @operation.Date.ToShortDateString()</p>
              </div>

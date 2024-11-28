@@ -13,6 +13,7 @@ using FinancialAssistant.ExchangeRates.Implementation;
 using FinancialAssistant.ExchangeRates.Options;
 using FinancialAssistant.Repository;
 using FinancialAssistant.Repository.Implementation;
+using FinancialAssistant.UserIdentity;
 using FinancialAssistant.Web.Services;
 using FinancialAssistant.Web.Services.Implementation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -93,6 +94,9 @@ builder.Services.AddTransient<IPasswordService, PasswordService>();
 builder.Services.AddTransient<ITokenService, TokenService>();
 builder.Services.AddTransient<IEmailService, EmailService>();
 builder.Services.AddTransient<IPasswordResetCodeService, PasswordResetCodeService>();
+builder.Services.AddTransient<ITransactionService, TransactionService>();
+builder.Services.AddTransient<IAccountService, AccountService>();
+builder.Services.AddTransient<ICategoryService, CategoryService>();
 
 builder.Services.AddSingleton<IEmojiService, EmojiService>();
 builder.Services.AddSingleton<IFiatCurrencyService, FiatCurrencyService>();

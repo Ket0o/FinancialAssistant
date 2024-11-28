@@ -2,7 +2,7 @@
 
 namespace FinancialAssistant.Repository;
 
-public interface IAccountRepository : IRepository<Account>
+public interface IAccountRepository : IRepositoryForContainsUserId<Account>
 {
-    
+    Task<int> CountAccounts(CancellationToken cancellationToken);
 }

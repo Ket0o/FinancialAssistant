@@ -2,7 +2,7 @@
 
 namespace FinancialAssistant.Repository;
 
-public interface ITransactionRepository : IRepository<Transaction>
+public interface ITransactionRepository : IRepositoryForContainsUserId<Transaction>
 {
-    
+     Task<List<Transaction>?> GetLastTen(CancellationToken cancellationToken);
 }

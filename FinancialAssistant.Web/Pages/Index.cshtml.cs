@@ -13,14 +13,18 @@ namespace FinancialAssistant.Web.Pages
         private readonly IEmojiService _emojiService;
         private readonly ICurrencyRateManager _currencyRateManager;
         private readonly IGreetingsService _greetingsService;
+        private readonly ITransactionService _transactionService;
 
-        public IndexModel(IEmojiService emojiService, 
+        public IndexModel(
+            IEmojiService emojiService, 
             ICurrencyRateManager currencyRateManager, 
-            IGreetingsService greetingsService)
+            IGreetingsService greetingsService, 
+            ITransactionService transactionService)
         {
             _emojiService = emojiService;
             _currencyRateManager = currencyRateManager;
             _greetingsService = greetingsService;
+            _transactionService = transactionService;
         }
 
         public string GreetingMessage { get; set; }
@@ -30,7 +34,7 @@ namespace FinancialAssistant.Web.Pages
         public IEnumerable<GetCurrencyDto>? Currencies { get; set; }
         public List<Operation> LastOperations { get; set; }
         
-        public void OnGet(CancellationToken cancellationToken)
+        public async Task OnGet(CancellationToken cancellationToken)
         {
             GreetingMessage = _greetingsService.GetGreetings();
 
@@ -42,29 +46,24 @@ namespace FinancialAssistant.Web.Pages
 
             LastCurrenciesUpdateTime = _currencyRateManager.GetLastFetchTime(cancellationToken); 
             
-            // Последние операции
-            LastOperations = new List<Operation>
+            if (await _transactionService.GetLastTenTransactions(cancellationToken) is not {} transactions)
+                return;
+
+            LastOperations = transactions.Select(transaction => new Operation
             {
-                new Operation { Place = "Кафе", Amount = 500, Date = DateTime.Now.AddDays(-1), Color = "#FF5733" },
-                new Operation { Place = "Супермаркет", Amount = 1500, Date = DateTime.Now.AddDays(-2), Color = "#33FF57" },
-                new Operation { Place = "Супермаркет", Amount = 1500, Date = DateTime.Now.AddDays(-2), Color = "#33FF57" },
-                new Operation { Place = "Супермаркет", Amount = 1500, Date = DateTime.Now.AddDays(-2), Color = "#33FF57" },
-                new Operation { Place = "Супермаркет", Amount = 1500, Date = DateTime.Now.AddDays(-2), Color = "#33FF57" },
-                new Operation { Place = "Супермаркет", Amount = 1500, Date = DateTime.Now.AddDays(-2), Color = "#33FF57" },
-                new Operation { Place = "Супермаркет", Amount = 1500, Date = DateTime.Now.AddDays(-2), Color = "#33FF57" },
-                new Operation { Place = "Супермаркет", Amount = 1500, Date = DateTime.Now.AddDays(-2), Color = "#33FF57" },
-                new Operation { Place = "Супермаркет", Amount = 1500, Date = DateTime.Now.AddDays(-2), Color = "#33FF57" },
-                new Operation { Place = "Супермаркет", Amount = 1500, Date = DateTime.Now.AddDays(-2), Color = "#33FF57" }
-                // Добавьте больше операций по мере необходимости
-            };
+                Amount = transaction.Amount,
+                Name = transaction.Name,
+                Date = transaction.TransactionDate,
+                Color = transaction.CategoryColor
+            }).ToList();
         }
     }
 
     public class Operation
     {
-        public string Place { get; set; }
+        public string Name { get; set; }
         public decimal Amount { get; set; }
-        public DateTime Date { get; set; }
+        public DateOnly Date { get; set; }
         public string Color { get; set; }
     }
 }
