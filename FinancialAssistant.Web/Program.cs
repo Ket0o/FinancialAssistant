@@ -33,6 +33,8 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
+builder.Services.AddCors();
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -53,10 +55,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-builder.Services.AddSession();
-builder.Services
-    .AddRazorPages();
-
 builder.Configuration
     .AddJsonFile("appsettings.json", optional: false)
     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true);
@@ -70,12 +68,8 @@ builder.Services.Configure<EmojiSettings>(
 builder.Services.Configure<AuthorizationSettings>(
 	builder.Configuration.GetSection(nameof(AuthorizationSettings)));
 
-builder.Services.Configure<RouteOptions>(options =>
-{
-    options.AppendTrailingSlash = true;
-    options.LowercaseUrls = true;
-    options.LowercaseQueryStrings = true;
-});
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddHttpClient<EmojiService>();
 builder.Services.AddHttpClient<FiatCurrencyService>();
@@ -106,45 +100,19 @@ builder.Services.AddSingleton<IGreetingsService, GreetingsService>();
 
 var app = builder.Build();
 
+app.UseCors(corsPolicyBuilder => corsPolicyBuilder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+
+
 app.UseStaticFiles();
 
 app.UseRouting();
-app.UseSession();
-
-app.Use(async (context, next) =>
-{
-    var token = context.Session.GetString("Token");
-    if (!String.IsNullOrEmpty(token))
-    {
-        context.Request.Headers[nameof(context.Request.Headers.Authorization)] =
-            $"{JwtBearerDefaults.AuthenticationScheme} {token}";
-    }
-    
-    if (context.GetEndpoint()?.Metadata.GetMetadata<AuthorizeAttribute>() is {} 
-        && String.IsNullOrEmpty(context.Request.Headers.Authorization))
-    {
-        context.Response.Redirect("/Login");
-        return;
-    }
-    
-    await next();
-});
-
-if (builder.Environment.IsDevelopment())
-{
-    app.UseDeveloperExceptionPage();
-}
-else
-{
-    app.UseExceptionHandler("/Error");
-}
 
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {
-    _ = endpoints.MapRazorPages();
+    _ = endpoints.MapControllers();
 });
 
 app.Run();

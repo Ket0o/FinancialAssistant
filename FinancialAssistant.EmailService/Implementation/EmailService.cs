@@ -85,7 +85,7 @@ public class EmailService : IEmailService
             try
             {
                 await client.ConnectAsync("smtp.gmail.com", 587, SecureSocketOptions.StartTls, cancellationToken);
-                await client.AuthenticateAsync("kupregion3@gmail.com", "jiuc ztct uyzg odza", cancellationToken);
+                await client.AuthenticateAsync("kupregion3@gmail.com", "mlga lxbl uvok fqsp", cancellationToken);
                 await client.SendAsync(emailMessage, cancellationToken);
             }
             catch (Exception ex)

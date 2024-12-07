@@ -2,7 +2,7 @@
 
 namespace FinancialAssistant.Repository;
 
-public interface IPasswordResetCodeRepository : IRepositoryForContainsUserId<PasswordResetCode>
+public interface IPasswordResetCodeRepository : IRepository<PasswordResetCode>
 {
     Task<bool> IsExistingCode(string code, CancellationToken cancellationToken);
 }
