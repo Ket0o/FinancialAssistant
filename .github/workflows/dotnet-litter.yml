@@ -1,0 +1,35 @@
+name: .NET Core CI with Litters
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '8.0.0'
+
+    - name: Install Litters
+      run: dotnet tool install --global Litters
+
+    - name: Run Litters
+      run: |
+        dotnet tool run Litters
+
+    - name: Build with dotnet
+      run: dotnet build
+
+    - name: Run tests
+      run: dotnet test
