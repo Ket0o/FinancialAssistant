@@ -1,15 +1,18 @@
 ﻿using FinancialAssistant.DataTransfer.Password;
 using FinancialAssistant.DataTransfer.Token;
 using FinancialAssistant.DataTransfer.User;
+using OneOf;
+using OneOf.Types;
 
 namespace FinancialAssistant.Authentication;
 
 public interface IUserService
 {
-    Task CreateUser(CreateUserDto createUser, CancellationToken cancellationToken);
-    Task<TokensDto> AuthenticationUser(AuthorizationUserDto user, CancellationToken cancellationToken);
-    Task<bool> ItExistingUser(string email, CancellationToken cancellationToken);
-    Task<bool> ChangeUserPassword(ChangePasswordDto changePassword, CancellationToken cancellationToken);
-    string? GetUserName();
-    long? GetUserId();
+    Task<OneOf<Success<string>, Error<string>>> CreateUser(CreateUserDto createUser,
+        CancellationToken cancellationToken);
+    Task<OneOf<TokensDto, Error<string>>> AuthenticationUser(AuthorizationUserDto user,
+        CancellationToken cancellationToken);
+    Task<OneOf<Success<string>, Error<string>>> ForgotPassword(string email, CancellationToken cancellationToken);
+    Task<OneOf<Success<string>, Error<string>>> ChangeUserPassword(ChangePasswordDto changePassword,
+        CancellationToken cancellationToken);
 }

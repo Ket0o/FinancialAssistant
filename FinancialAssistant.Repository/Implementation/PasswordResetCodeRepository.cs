@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FinancialAssistant.Repository.Implementation;
 
-public class PasswordResetCodeRepository : RepositoryForContainsUserId<PasswordResetCode>, IPasswordResetCodeRepository
+public class PasswordResetCodeRepository : Repository<PasswordResetCode>, IPasswordResetCodeRepository
 {
     private readonly DataContext _dataContext;
     
-    public PasswordResetCodeRepository(DataContext dataContext, IUserIdentityService identityService) 
-        : base(dataContext, identityService)
+    public PasswordResetCodeRepository(DataContext dataContext) 
+        : base(dataContext)
     {
         _dataContext = dataContext;
     }

@@ -2,6 +2,8 @@
 using FinancialAssistant.DataAccess.Model;
 using FinancialAssistant.Repository;
 using Microsoft.EntityFrameworkCore;
+using OneOf;
+using OneOf.Types;
 
 namespace FinancialAssistant.Authentication.Implementation;
 
@@ -21,11 +23,11 @@ public class PasswordResetCodeService : IPasswordResetCodeService
         _userRepository = userRepository;
     }
 
-    public async Task<string> GeneratePasswordResetCode(string email, CancellationToken cancellationToken)
+    public async Task<OneOf<Success<string>, Error<string>>> GeneratePasswordResetCode(string email, CancellationToken cancellationToken)
     {
         if (await _userRepository.GetAsync(userFromDb => EF.Functions.ILike(userFromDb.Email, email), cancellationToken)
             is not { } user)
-            return ErrorEmailMessage;
+            return new Error<string>(ErrorEmailMessage);
 
         string code;
         if (await _passwordResetCodeRepository.GetAsync(code => code.UserId == user.Id, cancellationToken) is not
@@ -34,16 +36,16 @@ public class PasswordResetCodeService : IPasswordResetCodeService
             code = await GenerateCodeUntilItUnique(cancellationToken);
             await _passwordResetCodeRepository.AddAsync(new PasswordResetCode
                 {ExpirationDate = DateTime.Now.AddDays(1), ResetCode = code, UserId = user.Id});
-            return code;
+            return new Success<string>(code);
         }
         
         if (resetCode.ExpirationDate > DateTime.Now)
-            return resetCode.ResetCode;
+            return new Success<string>(resetCode.ResetCode);
 
         code = await GenerateCodeUntilItUnique(cancellationToken); 
         await _passwordResetCodeRepository.AddAsync(new PasswordResetCode
             {ExpirationDate = DateTime.Now.AddDays(1), ResetCode = code, UserId = user.Id});
-        return code;
+        return new Success<string>(code);
     }
 
     public async Task<bool> AuthenticPasswordResetCode(long userId, string code, CancellationToken cancellationToken)
