@@ -22,11 +22,11 @@ jobs:
         dotnet-version: '8.x'
 
     - name: Install Litters
-      run: dotnet tool install --global Litters
+      run: dotnet tool install --global StyleCop.Analyzers
 
     - name: Run Litters
       run: |
-        dotnet tool run Litters
+        dotnet tool run StyleCop.Analyzers
 
     - name: Build with dotnet
       run: dotnet build
