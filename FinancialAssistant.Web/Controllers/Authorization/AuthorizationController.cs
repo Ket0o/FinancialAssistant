@@ -4,6 +4,7 @@ using FinancialAssistant.DataTransfer.User;
 using FinancialAssistant.EmailService;
 using FinancialAssistant.Web.Controllers.Authorization.Requests;
 using FinancialAssistant.Web.Controllers.Authorization.Responses;
+using FinancialAssistant.Web.Services;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;

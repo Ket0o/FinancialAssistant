@@ -3,7 +3,7 @@ using FinancialAssistant.DataTransfer.Password;
 using FinancialAssistant.DataTransfer.Token;
 using FinancialAssistant.DataTransfer.User;
 using FinancialAssistant.Repository;
-using FinancialAssistant.UserIdentity;
+using FinancialAssistant.Web.Services;
 using Microsoft.EntityFrameworkCore;
 using OneOf;
 using OneOf.Types;
@@ -16,16 +16,19 @@ public class UserService : IUserService
     private readonly IPasswordService _passwordService;
     private readonly ITokenService _tokenService;
     private readonly IPasswordResetCodeService _passwordResetCodeService;
+    private readonly IAccountService _accountService;
 
     public UserService(IUserRepository userRepository, 
         IPasswordService passwordService, 
         ITokenService tokenService, 
-        IPasswordResetCodeService passwordResetCodeService)
+        IPasswordResetCodeService passwordResetCodeService, 
+        IAccountService accountService)
     {
         _userRepository = userRepository;
         _passwordService = passwordService;
         _tokenService = tokenService;
         _passwordResetCodeService = passwordResetCodeService;
+        _accountService = accountService;
     }
 
     public async Task<OneOf<Success<string>, Error<string>>> CreateUser(CreateUserDto createUser, CancellationToken cancellationToken)
@@ -45,6 +48,7 @@ public class UserService : IUserService
         };
 
         await _userRepository.AddAsync(user);
+        await _accountService.AddFirstAccount(user.Id, "Main", cancellationToken);
         return new Success<string>("Пользователь успешно зарегистрирован.");
     }
 

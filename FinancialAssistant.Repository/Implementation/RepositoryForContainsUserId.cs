@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using System.Reflection;
 using FinancialAssistant.DataAccess;
 using FinancialAssistant.DataAccess.Model;
 using FinancialAssistant.UserIdentity;
@@ -18,7 +19,8 @@ public class RepositoryForContainsUserId<T> : Repository<T>, IRepositoryForConta
         _identityService = identityService;
     }
     
-    public new async Task<List<T>?> GetAllAsync(Expression<Func<T, bool>>? predicate = null,
+    public new async Task<List<T>?> GetAllAsync(Expression<Func<T, bool>>? predicate = null, 
+        PropertyInfo? propertyInfo = null,
         CancellationToken cancellationToken = default, params Expression<Func<T, object?>>[] include)
     {
         var userId = _identityService.GetUserId();
@@ -32,6 +34,9 @@ public class RepositoryForContainsUserId<T> : Repository<T>, IRepositoryForConta
 
         if (predicate is { } notNullPredicate)
             query = query.Where(notNullPredicate);
+        
+        if (propertyInfo is { })
+            query = query.OrderBy(entity => propertyInfo.GetValue(entity));
        
         return await query.ToListAsync(cancellationToken);
     }

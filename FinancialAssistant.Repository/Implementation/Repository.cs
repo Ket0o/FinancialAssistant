@@ -1,5 +1,7 @@
 ﻿using System.Linq.Expressions;
+using System.Reflection;
 using FinancialAssistant.DataAccess;
+using FinancialAssistant.DataAccess.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinancialAssistant.Repository.Implementation;
@@ -13,7 +15,8 @@ public class Repository<T> : IRepository<T> where T : class
         _dbContext = dbContext;
     }
 
-    public async Task<List<T>?> GetAllAsync(Expression<Func<T, bool>>? predicate = null,
+    public async Task<List<T>?> GetAllAsync(Expression<Func<T, bool>>? predicate = null, 
+        PropertyInfo? propertyInfo = null,
         CancellationToken cancellationToken = default, params Expression<Func<T, object?>>[] include)
     {
         var query = _dbContext.Set<T>()
@@ -21,9 +24,12 @@ public class Repository<T> : IRepository<T> where T : class
             .AsQueryable();
         
         query = include.Aggregate(query, (current, inc) => current.Include(inc));
-
+        
         if (predicate is { } notNullPredicate)
             query = query.Where(notNullPredicate);
+
+        if (propertyInfo is { })
+            query = query.OrderBy(entity => propertyInfo.GetValue(entity));
        
         return await query.ToListAsync(cancellationToken);
     }
