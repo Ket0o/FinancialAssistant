@@ -4,7 +4,7 @@ using FinancialAssistant.DataTransfer.User;
 using OneOf;
 using OneOf.Types;
 
-namespace FinancialAssistant.Authentication;
+namespace FinancialAssistant.Web.Services;
 
 public interface IUserService
 {
