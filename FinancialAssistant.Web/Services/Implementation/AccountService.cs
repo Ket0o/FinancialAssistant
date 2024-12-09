@@ -37,7 +37,7 @@ public class AccountService : IAccountService
             new GetAccountDto(accountId, account.Name, account.Balance, account.IsDefault));
     }
 
-    public async Task<OneOf<Success<string>, Error<string>>> AddAccount(string name, 
+    public async Task<OneOf<Success<long>, Error<string>>> AddAccount(string name, 
         CancellationToken cancellationToken)
     {
         if (await _accountRepository.GetAsync(account => account.Name == name, cancellationToken) is {})
@@ -46,14 +46,16 @@ public class AccountService : IAccountService
         if (await _accountRepository.CountAccounts(cancellationToken) == 3)
             return new Error<string>("Достигнут лимит по счетам, удалите один из счетов и попробуйте еще раз.");
 
+        var account = new Account {Balance = 0, Name = name};
         if (await _accountRepository.CountAccounts(cancellationToken) == 0)
         {
-            await _accountRepository.AddAsync(new Account {Balance = 0, Name = name, IsDefault = true});
-            return new Success<string>("Счет успешно создан.");
+            account.IsDefault = true;
+            await _accountRepository.AddAsync(account);
+            return new Success<long>(account.Id);
         }
         
-        await _accountRepository.AddAsync(new Account {Balance = 0, Name = name});
-        return new Success<string>("Счет успешно создан.");
+        await _accountRepository.AddAsync(account);
+        return new Success<long>(account.Id);
     }
 
     public async Task<OneOf<Success<string>, Error<string>>> EditAccount(UpdateAccountDto updateAccount, 
@@ -65,6 +67,8 @@ public class AccountService : IAccountService
         
         if (!updateAccount.IsDefault)
         {
+            if (account.IsDefault)
+                return new Error<string> ("Установите в качестве счета по умолчанию другой счет.");
             account.Name = updateAccount.Name;
             await _accountRepository.UpdateAsync(account);
             return new Success<string>("Счет успешно изменен.");
