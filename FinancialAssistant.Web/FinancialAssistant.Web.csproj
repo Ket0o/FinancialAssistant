@@ -36,8 +36,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\Accounts\Requests\" />
-    <Folder Include="Controllers\Accounts\Responses\" />
     <Folder Include="Filters\" />
   </ItemGroup>
 

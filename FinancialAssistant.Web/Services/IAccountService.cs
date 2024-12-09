@@ -10,7 +10,7 @@ public interface IAccountService
 
     Task<OneOf<Success<GetAccountDto>, Error<string>>> GetAccount(long accountId, CancellationToken cancellationToken);
     
-    Task<OneOf<Success<string>, Error<string>>> AddAccount(string name, CancellationToken cancellationToken);
+    Task<OneOf<Success<long>, Error<string>>> AddAccount(string name, CancellationToken cancellationToken);
     
     Task<OneOf<Success<string>, Error<string>>> EditAccount(UpdateAccountDto updateAccount,
         CancellationToken cancellationToken);
