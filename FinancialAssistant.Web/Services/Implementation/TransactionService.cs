@@ -5,10 +5,11 @@ using FinancialAssistant.DataAccess.Model;
 using FinancialAssistant.DataTransfer.Account;
 using FinancialAssistant.DataTransfer.Transaction;
 using FinancialAssistant.Repository;
-using FinancialAssistant.UserIdentity;
 using FinancialAssistant.Web.Extensions;
-using Microsoft.EntityFrameworkCore;
-using Org.BouncyCastle.Asn1.X509;
+using FinancialAssistant.Web.Mapping.Transactions;
+using OneOf;
+using OneOf.Types;
+using NotFound = OneOf.Types.NotFound;
 
 namespace FinancialAssistant.Web.Services.Implementation;
 
@@ -24,55 +25,48 @@ public class TransactionService : ITransactionService
         _accountService = accountService;
     }
 
-    public async Task DeleteTransaction(long id, CancellationToken cancellationToken)
+    public async Task<OneOf<Success, NotFound>> DeleteTransaction(long id, 
+        CancellationToken cancellationToken)
     {
-        if (await _transactionRepository.GetAsync(transaction => transaction.Id == id, 
+        if (await _transactionRepository.GetAsync(transactionFromDataBase => transactionFromDataBase.Id == id, 
             cancellationToken) is not { } transaction)
-            return;
+            return new NotFound();
         
         await _transactionRepository.DeleteAsync(transaction);
         await _accountService.UpdateAccountBalance(new UpdateAccountBalanceDto(transaction.AccountId,
             -transaction.Amount), cancellationToken);
+        
+        return new Success();
     }
 
-    public async Task ChangeTransaction(UpdateTransactionDto updateTransaction, 
+    public async Task<OneOf<Success, NotFound>> ChangeTransaction(UpdateTransactionDto updateTransaction, 
         CancellationToken cancellationToken)
     {
         if (await _transactionRepository
-            .GetAsync(transaction => 
-            transaction.Id == updateTransaction.Id, cancellationToken) is not { } transaction)
-            return;
+            .GetAsync(transactionFromDataBase => 
+                transactionFromDataBase.Id == updateTransaction.Id, cancellationToken) is not { } transaction)
+            return new NotFound();
 
         await _accountService.UpdateAccountBalance(new UpdateAccountBalanceDto(transaction.AccountId,
             -transaction.Amount), cancellationToken);
         
-        await _transactionRepository.UpdateAsync(new DataAccess.Model.Transaction
-        {
-            AccountId = updateTransaction.Id,
-            CategoryId = updateTransaction.CategoryId,
-            Amount = updateTransaction.Amount,
-            TransactionDate = updateTransaction.TransactionDate,
-            Description = updateTransaction.Description
-        });
+        await _transactionRepository.UpdateAsync(updateTransaction.ToModel());
         
         await _accountService.UpdateAccountBalance(new UpdateAccountBalanceDto(updateTransaction.Id,
             updateTransaction.Amount), cancellationToken);
+        return new Success();
     }
 
-    public async Task<List<GetTransactionDto>?> GetAllTransactions(TransactionFilterDto filter,
+    public async Task<OneOf<Success<List<GetTransactionDto>>, NotFound>> GetAllTransactions(TransactionFilterDto filter,
         CancellationToken cancellationToken)
     {
         Expression<Func<Transaction, bool>> predicate = t => true;
 
         if (filter.AccountId.HasValue)
-        {
             predicate = predicate.AndAlso(transaction => transaction.AccountId == filter.AccountId);
-        }
 
-        if (filter.CategoryId.HasValue)
-        {
+        if (filter.CategoryId.HasValue) 
             predicate = predicate.AndAlso(transaction => transaction.CategoryId == filter.CategoryId);
-        }
         
         if (!string.IsNullOrEmpty(filter.YearMonth))
         {
@@ -86,57 +80,40 @@ public class TransactionService : ITransactionService
         }
 
         PropertyInfo? propertyInfo = null;
-        
-        if (!string.IsNullOrEmpty(filter.SortBy))
-        {
-            propertyInfo = typeof(Transaction).GetProperty(filter.SortBy);
-        }
+        if (!string.IsNullOrEmpty(filter.SortBy)) propertyInfo = typeof(Transaction).GetProperty(filter.SortBy);
 
         if (await _transactionRepository.GetAllAsync(predicate, propertyInfo, cancellationToken) is 
             not { } transactions)
-            return default;
-        
-        return transactions.Select(transaction => new GetTransactionDto(transaction.Id, transaction.Name,
-            transaction.AccountId, transaction.CategoryId, transaction.Amount,
-            transaction.TransactionDate, transaction.Description, transaction.CreatedAt, transaction.Account.Name, 
-            transaction.Category.Name, transaction.Category.Color)).ToList();
+            return new NotFound();
+
+        return new Success<List<GetTransactionDto>>(transactions
+            .Select(transaction => transaction.ToGetTransactionDto()).ToList());
     }
 
-    public async Task<GetTransactionDto?> GetTransaction(long transactionId, 
+    public async Task<OneOf<Success<GetTransactionDto>, NotFound>> GetTransaction(long transactionId, 
         CancellationToken cancellationToken)
     {
-        if (await _transactionRepository.GetAsync(transaction => transaction.Id == transactionId, 
-            cancellationToken) is not { } transaction)
-            return null;
+        if (await _transactionRepository.GetAsync(
+                transactionFromDataBase => transactionFromDataBase.Id == transactionId,
+                cancellationToken) is not { } transaction)
+            return new NotFound();
 
-        return new GetTransactionDto(transaction.Id, transaction.Name, transaction.AccountId, transaction.CategoryId, 
-            transaction.Amount, transaction.TransactionDate, transaction.Description, 
-            transaction.CreatedAt, transaction.Account.Name, transaction.Category.Name, transaction.Category.Color);
+        return new Success<GetTransactionDto>(transaction.ToGetTransactionDto());
     }
 
-    public async Task<List<GetTransactionDto>?> GetLastTenTransactions(CancellationToken cancellationToken)
+    public async Task<OneOf<Success<List<GetTransactionDto>>, NotFound>> GetLastTenTransactions(
+        CancellationToken cancellationToken)
     {
         if (await _transactionRepository.GetLastTen(cancellationToken) is not { } transactions)
-            return null;
+            return new NotFound();
 
-        return transactions.Select(transaction => new GetTransactionDto(transaction.Id, transaction.Name,
-                transaction.AccountId, transaction.CategoryId, transaction.Amount, transaction.TransactionDate,
-                transaction.Description, transaction.CreatedAt, transaction.Account.Name, transaction.Category.Name,
-                transaction.Category.Color))
-            .ToList();
+        return new Success<List<GetTransactionDto>>(transactions.Select(transaction => 
+            transaction.ToGetTransactionDto()).ToList());
     }
 
     public async Task AddTransaction(AddTransactionDto transaction, CancellationToken cancellationToken)
     {
-        await _transactionRepository.AddAsync(new DataAccess.Model.Transaction
-        {
-            AccountId = transaction.AccountId,
-            CategoryId = transaction.CategoryId,
-            Amount = transaction.Amount,
-            TransactionDate = transaction.TransactionDate,
-            Description = transaction.Description,
-            CreatedAt = DateTime.Now
-        });
+        await _transactionRepository.AddAsync(transaction.ToModel());
         
         await _accountService.UpdateAccountBalance(new UpdateAccountBalanceDto(transaction.AccountId,
             -transaction.Amount), cancellationToken);

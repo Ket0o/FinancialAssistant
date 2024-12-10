@@ -1,4 +1,5 @@
 ﻿using FinancialAssistant.DataAccess.Model;
+using FinancialAssistant.DataTransfer.Account;
 using FinancialAssistant.DataTransfer.Password;
 using FinancialAssistant.DataTransfer.Token;
 using FinancialAssistant.DataTransfer.User;
@@ -48,7 +49,7 @@ public class UserService : IUserService
         };
 
         await _userRepository.AddAsync(user);
-        await _accountService.AddFirstAccount(user.Id, "Main", cancellationToken);
+        await _accountService.AddFirstAccount(new AddFirstAccountDto(user.Id, "Main"), cancellationToken);
         return new Success<string>("Пользователь успешно зарегистрирован.");
     }
 
