@@ -1,5 +1,6 @@
 ﻿using FinancialAssistant.DataAccess.Model;
 using FinancialAssistant.DataTransfer.Transaction;
+using FinancialAssistant.Web.Controllers.Transactions.Responses;
 
 namespace FinancialAssistant.Web.Mapping.Transactions;
 
@@ -30,4 +31,9 @@ public static class TransactionsMapping
         => new (transaction.Id, transaction.Name, transaction.AccountId, transaction.CategoryId,
             transaction.Amount, transaction.TransactionDate, transaction.Description, transaction.CreatedAt,
             transaction.Account.Name, transaction.Category.Name, transaction.Category.Color);
+
+    public static GetTransactionResponse ToGetTransactionResponse(this GetTransactionDto transactionDto)
+        => new(transactionDto.Id, transactionDto.Name, transactionDto.AccountId, transactionDto.CategoryId,
+            transactionDto.Amount, transactionDto.TransactionDate, transactionDto.Description, transactionDto.CreatedAt,
+            transactionDto.AccountName, transactionDto.CategoryName, transactionDto.CategoryColor);
 }

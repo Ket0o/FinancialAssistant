@@ -13,4 +13,8 @@ public static class AccountsMapping
             Name = addFirstAccount.Name, 
             IsDefault = true
         };
+
+    public static GetAccountDto ToGetAccountDto(this Account account)
+        => new (account.Id, account.Name, account.Balance,
+            account.IsDefault);
 }

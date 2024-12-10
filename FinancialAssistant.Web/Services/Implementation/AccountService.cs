@@ -25,7 +25,7 @@ public class AccountService : IAccountService
             return new NotFound();
 
         return new Success<List<GetAccountDto>>(
-            accounts.Select(account => new GetAccountDto(account.Id, account.Name, account.Balance, account.IsDefault))
+            accounts.Select(account => account.ToGetAccountDto())
                 .ToList());
     }
 
@@ -36,8 +36,7 @@ public class AccountService : IAccountService
                 cancellationToken) is not { } account)
             return new NotFound();
 
-        return new Success<GetAccountDto>(
-            new GetAccountDto(accountId, account.Name, account.Balance, account.IsDefault));
+        return new Success<GetAccountDto>(account.ToGetAccountDto());
     }
 
     public async Task<OneOf<Success<long>, Error<string>>> AddAccount(string name, 
@@ -130,7 +129,6 @@ public class AccountService : IAccountService
             is not { } account)
             return new NotFound();
 
-        return new Success<GetAccountDto>(new GetAccountDto(account.Id, account.Name, account.Balance,
-            account.IsDefault));
+        return new Success<GetAccountDto>(account.ToGetAccountDto());
     }
 }
