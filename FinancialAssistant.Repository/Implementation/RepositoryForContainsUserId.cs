@@ -34,10 +34,15 @@ public class RepositoryForContainsUserId<T> : Repository<T>, IRepositoryForConta
 
         if (predicate is { } notNullPredicate)
             query = query.Where(notNullPredicate);
+
+        if (propertyInfo is null) return await query.ToListAsync(cancellationToken);
         
-        if (propertyInfo is { })
-            query = query.OrderBy(entity => propertyInfo.GetValue(entity));
-       
+        var parameter = Expression.Parameter(typeof(T), "x");
+        var property = Expression.Property(parameter, propertyInfo);
+        var conversion = Expression.Convert(property, typeof(object));
+        var propertyExpression = Expression.Lambda<Func<T, object>>(conversion, parameter);
+        query = query.OrderBy(propertyExpression);
+
         return await query.ToListAsync(cancellationToken);
     }
 
@@ -77,6 +82,19 @@ public class RepositoryForContainsUserId<T> : Repository<T>, IRepositoryForConta
             entity.UserId = userId;
         }
         await _dbContext.Set<T>().AddRangeAsync(entities);
+        _ = await _dbContext.SaveChangesAsync();
+    }
+
+    public new async Task UpdateAsync(T entity)
+    {
+        entity.UserId = _identityService.GetUserId();
+        _ = _dbContext.Set<T>().Update(entity);
+        _ = await _dbContext.SaveChangesAsync();
+    }
+    
+    public new async Task DeleteAsync(T entity)
+    {
+        _ = _dbContext.Set<T>().Remove(entity);
         _ = await _dbContext.SaveChangesAsync();
     }
 }
