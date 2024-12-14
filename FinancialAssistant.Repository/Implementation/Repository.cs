@@ -1,7 +1,6 @@
 ﻿using System.Linq.Expressions;
 using System.Reflection;
 using FinancialAssistant.DataAccess;
-using FinancialAssistant.DataAccess.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinancialAssistant.Repository.Implementation;

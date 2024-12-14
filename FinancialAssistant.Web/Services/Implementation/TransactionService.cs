@@ -5,6 +5,7 @@ using FinancialAssistant.DataAccess.Model;
 using FinancialAssistant.DataTransfer.Account;
 using FinancialAssistant.DataTransfer.Transaction;
 using FinancialAssistant.Repository;
+using FinancialAssistant.UserIdentity;
 using FinancialAssistant.Web.Extensions;
 using FinancialAssistant.Web.Mapping.Transactions;
 using OneOf;
@@ -49,8 +50,11 @@ public class TransactionService : ITransactionService
 
         await _accountService.UpdateAccountBalance(new UpdateAccountBalanceDto(transaction.AccountId,
             -transaction.Amount), cancellationToken);
+
+        var newTransaction = updateTransaction.ToModel();
+        newTransaction.CreatedAt = transaction.CreatedAt;
         
-        await _transactionRepository.UpdateAsync(updateTransaction.ToModel());
+        await _transactionRepository.UpdateAsync(newTransaction);
         
         await _accountService.UpdateAccountBalance(new UpdateAccountBalanceDto(updateTransaction.Id,
             updateTransaction.Amount), cancellationToken);
